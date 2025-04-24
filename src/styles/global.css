@@ -16,3 +16,22 @@ body{
   background-color: var(--gray-900);
   color: var(--text-default);
 }
+
+
+.container-fluid{
+  max-width: auto;
+  background-color: purple;
+}
+
+.container{
+  max-width: 98rem; /*ou 980pixels*/
+  margin: 0 auto;  /*para centralizar a div com 0cima baixo e auto dos lados */ 
+  background-color: red; 
+
+}
+
+.content{
+ margin: 3.2rem;
+ background-color: blue;
+}
+

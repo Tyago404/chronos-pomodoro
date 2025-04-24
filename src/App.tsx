@@ -1,25 +1,31 @@
 //Componentes sempre com CamelCase!
-import { Fragment } from "react/jsx-runtime" //Utilizando o fragment
 
 //Importanto arquivos css, não precisar ter um nome, importe diretamente o arquivo
-import './styles/theme.css'
-import './styles/global.css'
+import './styles/theme.css';
+import './styles/global.css';
 
-//Importando Componentes
-import {Heading} from './components/Heading'
-import { TimerIcon } from "lucide-react"
+//Importando Componente
 
+export const App = () => {
+  return (
+    <>
+      <div className='container'>
+        <div className='content'>
+          <section>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat soluta alias, molestias beatae rerum quas quis distinctio ipsum expedita accusantium! Aliquid necessitatibus voluptatem voluptatibus minima est magnam maiores sunt incidunt!</p>
+          </section>
+        </div>
+      </div>
 
-export const App = ()=>{
-  return(
-    <Fragment>
-      <Heading>  {/*Esse elemento agora tem várias tags html com vários tipos.. Para não precisar tipar todas as props, utilize React.node no /Heading.tsx */}
-        <h1>Olá mundo!</h1>
-        <button><TimerIcon /></button>
-      </Heading>
-
-
-
-    </Fragment>
-  )
-}
+      <div className='container-fluid'> {/*Esse container é esticado pela pagina inteira*/}
+        <div className='container'>  {/*Para alinhar o conteudo ao centro e limita-lo */}
+          <div className='content'> {/*Abrigar o conteudo */}
+            <section>
+              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores sit dolor assumenda beatae molestias repellat nulla laborum temporibus excepturi vel. Odit nemo consequuntur sapiente maiores odio quo praesentium vero tempora.</p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
