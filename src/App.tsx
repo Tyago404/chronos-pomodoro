@@ -7,13 +7,19 @@ import './styles/global.css'
 
 //Importando Componentes
 import {Heading} from './components/Heading'
+import { TimerIcon } from "lucide-react"
+
 
 export const App = ()=>{
   return(
-    <Fragment> {/*Você só pode retornar apenas UM elemento ou utilize Fragments <> */}
-      <Heading attbr1="Atributo1">
+    <Fragment>
+      <Heading>  {/*Esse elemento agora tem várias tags html com vários tipos.. Para não precisar tipar todas as props, utilize React.node no /Heading.tsx */}
         <h1>Olá mundo!</h1>
+        <button><TimerIcon /></button>
       </Heading>
+
+
+
     </Fragment>
   )
 }
