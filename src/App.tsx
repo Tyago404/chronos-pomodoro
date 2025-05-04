@@ -1,18 +1,24 @@
-//Componentes sempre com CamelCase!
 
-//Importanto arquivos css, não precisar ter um nome, importe diretamente o arquivo
+//Importando arquivos css, não precisar ter um nome, importe diretamente o arquivo
 import './styles/theme.css';
 import './styles/global.css';
-import { Container } from './components/Container/Index';
-import { Heading } from './components/Heading/Index';
+
 
 //Importando Componente
+import { Container } from './components/Container/Index';
+import { Heading } from './components/Heading/Index';
+import { Logo } from './components/Logo/Index';
+
+
 
 export const App = () => {
+
+
   return (
+//Componentes sempre com CamelCase!
     <>
       <Container>
-        <Heading>LOGO</Heading>
+        <Logo />
       </Container>
 
       <Container>
