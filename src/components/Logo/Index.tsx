@@ -6,10 +6,10 @@ import styles from'./Styles.module.css'
 export const Logo = ()=>{ 
   return(
     <div className={styles.logo}>
-     <a href="#" className={styles.logoLink}>
-      <TimerIcon /> 
-      <span>Chronos</span>
-     </a>
+      <a href="#" className={styles.logoLink}>
+        <TimerIcon /> 
+        <span>Chronos</span>
+      </a>
     </div>
   )
 } 

@@ -6,8 +6,9 @@ import './styles/global.css';
 
 //Importando Componente
 import { Container } from './components/Container/Index';
-import { Heading } from './components/Heading/Index';
+// import { Heading } from './components/Heading/Index';
 import { Logo } from './components/Logo/Index';
+import { Menu } from './components/Menu/Index';
 
 
 
@@ -22,7 +23,7 @@ export const App = () => {
       </Container>
 
       <Container>
-        <Heading>MENU</Heading>
+       <Menu />
       </Container>
     </>
   );
