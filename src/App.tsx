@@ -9,6 +9,7 @@ import { Container } from './components/Container/Index';
 // import { Heading } from './components/Heading/Index';
 import { Logo } from './components/Logo/Index';
 import { Menu } from './components/Menu/Index';
+import { CountDown } from './components/CountDown/Index';
 
 
 
@@ -25,6 +26,12 @@ export const App = () => {
       <Container>
        <Menu />
       </Container>
+      
+      <Container>
+         <CountDown />
+      </Container>
+
+
     </>
   );
 };
