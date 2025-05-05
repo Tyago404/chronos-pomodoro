@@ -1,8 +1,6 @@
-
 //Importando arquivos css, não precisar ter um nome, importe diretamente o arquivo
 import './styles/theme.css';
 import './styles/global.css';
-
 
 //Importando Componente
 import { Container } from './components/Container/Index';
@@ -10,28 +8,53 @@ import { Container } from './components/Container/Index';
 import { Logo } from './components/Logo/Index';
 import { Menu } from './components/Menu/Index';
 import { CountDown } from './components/CountDown/Index';
-
-
+import { DefaultInput } from './components/DefaultInput';
 
 export const App = () => {
-
-
   return (
-//Componentes sempre com CamelCase!
+    //Componentes sempre com CamelCase!
     <>
       <Container>
         <Logo />
       </Container>
 
       <Container>
-       <Menu />
+        <Menu />
       </Container>
-      
+
       <Container>
-         <CountDown />
+        <CountDown />
       </Container>
 
+      <Container>
+        <form className='form'>
+          <div className='formRow'>
+            <DefaultInput 
+              type='text' 
+              id='input'  
+              labelText='task' 
+              placeholder='Digite algo'
+             
+              // disabled
+              // defaultValue='abc' Testando estilo desabled
+              // title='TITLE' Testando ...rest
+              />
+          </div>
 
+          <div className='formRow'>
+            <p>Lorem ipsum dolor sit amet.</p>
+          </div>
+
+          <div className='formRow'>
+            <p>Ciclos</p>
+            <p>0 0 0 0 0 0 0</p>
+          </div>
+
+          <div className='formRow'>
+            <button>Enviar</button>
+          </div>
+        </form>
+      </Container>
     </>
   );
 };
