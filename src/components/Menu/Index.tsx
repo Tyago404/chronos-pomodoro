@@ -1,7 +1,7 @@
 //Import do css
 import { HistoryIcon, HouseIcon, SettingsIcon, SunIcon } from 'lucide-react'
 import styles from'./Styles.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
 type AvailableThemes = 'dark' | 'light'
@@ -26,6 +26,21 @@ export const Menu = ()=> {
           return nextTheme
         })
       }
+      
+      //Só executa quando o estado de theme mudar
+      useEffect(()=>{
+        document.documentElement.setAttribute('data-theme', theme)
+        console.log('Fui Executado! e o theme mudou')
+        
+        
+      //Retorno de limpeza, executa quando o componente for desmontado. 
+      //Função de clean up
+        return ()=>{
+          console.log('Função de limpeza foi executada!')
+        }
+      },[theme]
+    
+    )
 
 
   return(
