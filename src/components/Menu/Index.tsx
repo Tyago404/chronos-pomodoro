@@ -39,7 +39,6 @@ export const Menu = () => {
 
   return (
     <nav className={styles.menu}>
-      <h1>{theme}</h1>
       <a
         href='#'
         className={styles.menuLink}
