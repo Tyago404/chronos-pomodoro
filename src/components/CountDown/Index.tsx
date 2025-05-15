@@ -1,10 +1,8 @@
-//Import do css
-
+import { HomeProps } from '../../pages/Home'
 import styles from'./Styles.module.css'
 
-//Styles sempre com camelCase e sem '-'
-export const CountDown = ()=>{ 
+export const CountDown = ({state}:HomeProps)=>{ 
   return(
-    <div className={styles.container}> 00:00</div>
+    <div className={styles.container}>{state.formattedSecondsRemaining}</div>
   )
 } 

@@ -4,44 +4,22 @@ import { MainForm } from '../../components/MainForm';
 import { TaskStateModel } from '../../models/TaskStateModel';
 import { MainTemplate } from '../../templates/MainTemplate';
 
-type HomeProps = {
-  state:TaskStateModel;
-  setState:React.Dispatch<React.SetStateAction<TaskStateModel>>;
-}
+export type HomeProps = {
+  state: TaskStateModel;
+  setState: React.Dispatch<React.SetStateAction<TaskStateModel>>;
+};
 
-
-export const Home = (props:HomeProps) => {
-
-  const {state, setState} = props;
-
-  const handleClick = ()=>{
-  
-    setState(prevState =>{
-      return{
-        ...prevState,
-        currentCycle: 8 
-      }
-    })
-  }
-  
-  console.log(state.currentCycle)
+export const Home = (props: HomeProps) => {
 
   return (
     <MainTemplate>
-    
       <Container>
-        <button onClick={handleClick}>CLICK ME!</button>
-        
+        <CountDown {...props} />  {/*Ao invés de passar state={state} setState={...} Você pode passar o objeto inteiro utilizando {...props} */}
       </Container>
 
       <Container>
-        <CountDown />
+        <MainForm {...props} />
       </Container>
-
-      <Container>
-        <MainForm />
-      </Container>
-
     </MainTemplate>
   );
 };
