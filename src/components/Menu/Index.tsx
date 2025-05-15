@@ -25,10 +25,10 @@ export const Menu = () => {
     document.documentElement.setAttribute('data-theme', theme);
     //para criar uma key e o valor da key no localstorage do navegador
     localStorage.setItem('theme',theme)
-    console.log('Fui Executado! e o theme mudou');
+    // console.log('Fui Executado! e o theme mudou');
 
     return () => {
-      console.log('Função de limpeza foi executada!');
+      // console.log('Função de limpeza foi executada!');
     };
   }, [theme]);
 
