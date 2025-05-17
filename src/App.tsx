@@ -1,5 +1,5 @@
 
-import { TaskContext } from './contexts/TaskContext';
+import { TaskContext, TaskContextProvider } from './contexts/TaskContext';
 import { TaskStateModel } from './models/TaskStateModel';
 import { Home } from './pages/Home';
 
@@ -23,8 +23,7 @@ const initialState:TaskStateModel = {
 export const App = () => {
   const [state, setState] = useState<TaskStateModel>(initialState)
   return(
-    <TaskContext.Provider value={{outracoisa:321}}> {/*Criamos aqui um objeto com .Provider para prover o valor aos componentes desejados */}
-      <Home /> {/*O valor de provider também vai para os componentes dentro de Home*/}
-    </TaskContext.Provider>
-  )
+  <TaskContextProvider>
+    <Home />
+  </TaskContextProvider>  )
 };

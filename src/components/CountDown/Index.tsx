@@ -1,9 +1,9 @@
 import { useContext } from 'react'
 import styles from'./Styles.module.css'
-import { TaskContext } from '../../contexts/TaskContext'
+import { useTaskContext } from '../../contexts/TaskContext'
 
 export const CountDown = ()=>{ 
-  const taskContext = useContext(TaskContext);
+  const taskContext = useTaskContext();
   console.log(taskContext)
 
   return(
