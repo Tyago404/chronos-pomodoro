@@ -1,5 +1,6 @@
 
-import {TaskContextProvider } from './contexts/TaskContext';
+
+import { TaskContextProvider } from './contexts/TaskContext/TaskContextProvider';
 import { Home } from './pages/Home';
 
 import './styles/global.css';
