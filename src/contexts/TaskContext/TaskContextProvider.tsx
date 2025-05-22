@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { initialTaskState } from "./initialTaskState";
 import { TaskContext } from "./TaskContext";
 
@@ -9,6 +9,9 @@ type TaskContextProviderProps = {
 export const TaskContextProvider = ({children}:TaskContextProviderProps)=>{
   const [state,setState] = useState(initialTaskState)
   
-  //Passando setState e state para os componentes
+  //Toda vez que o estado mudar temos como monitorar através do useEffect desta forma
+  useEffect(()=>{
+    console.log(state)
+  },[state])
   return <TaskContext.Provider value={{state,setState}}>{children}</TaskContext.Provider>
 }
