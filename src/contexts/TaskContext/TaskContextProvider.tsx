@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { initialTaskState } from "./initialTaskState";
 import { TaskContext } from "./TaskContext";
 
@@ -8,10 +8,27 @@ type TaskContextProviderProps = {
 
 export const TaskContextProvider = ({children}:TaskContextProviderProps)=>{
   const [state,setState] = useState(initialTaskState)
-  
-  //Toda vez que o estado mudar temos como monitorar através do useEffect desta forma
-  useEffect(()=>{
-    console.log(state)
-  },[state])
-  return <TaskContext.Provider value={{state,setState}}>{children}</TaskContext.Provider>
+
+  const [number, dispatch] = useReducer((state, action)=>{
+    switch(action){
+      case 'INCREMENT':
+        return state + 1;
+      case 'DECREMENT':
+        return state - 1;
+      case'ZERAR':
+        return state = 0;
+    }
+
+      return state
+  },0)
+
+
+  return(
+      <TaskContext.Provider value={{state,setState}}>
+        <h1>O numero do reducer state é: {number}</h1>
+        <button onClick={()=>dispatch('INCREMENT')}>Increment</button><br />
+        <button onClick={()=>dispatch('DECREMENT')}>Decrement</button><br />
+        <button onClick={()=>dispatch('ZERAR')}>Zerar</button>
+      </TaskContext.Provider>
+  )
 }

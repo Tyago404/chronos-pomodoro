@@ -1,67 +1,84 @@
-import { PlayCircleIcon } from "lucide-react";
+import { PlayCircleIcon, StopCircleIcon } from "lucide-react";
 import { Cycles } from "../../Cycles";
 import { DefaultButton } from "../DefaultButton";
 import { DefaultInput } from "../DefaultInput";
 import { useRef } from "react";
 import { TaskModel } from "../../models/TaskModel";
 import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
+import { getNextCycle } from "../../utils/getNextCycle";
+import { getNextCycleType } from "../../utils/getNextCycleType";
+import { formatedSecondsToMinutes } from "../../utils/formatSecondsToMinutes";
 
 export const MainForm = () => {
 
   const taskNameInput = useRef<HTMLInputElement>(null)
-  const {setState} = useTaskContext()
-
+  const { state, setState } = useTaskContext()
+  
+  const nextCycle = getNextCycle(state.currentCycle)
+  const nextCytleType = getNextCycleType(nextCycle)
+  
   const handleCreateNewTask = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault() //PARA NÃO ENVIAR O FORM
+    e.preventDefault()
 
-    //Etapa de segurança, se não tiver nenhum input a função retorna neste ponto e não executa o código  
     if (taskNameInput.current === null) return;
 
-    /////A Partir daqui só executa se existir um input
-
-    //Para resgatar o valor digitado pelo user, trim()para eliminar os espaços desnecessários ' valor '
     const taskName = taskNameInput.current.value.trim()
-    console.log(taskName)
 
-    //Se o user não der o nome da task, um alert será disparado na tela e a função no procede
     if (!taskName) {
       alert('Digite o nome da tarefa')
       return
     }
 
-//Quando o user clicar no botão irá criar essa nova Task, com o modelo que já criamos em /model
-//Agora estamos adicionando o nome da task e todos os dados necessários para preencher o TaskModel
     const newTask: TaskModel = {
-      id:Date.now().toString(), //toString para transformar em string//Date.now para pegar a data atual
-      name:taskName, //Adicionando o nome da task através do input que captamos o current.value no hook useRef
+      id: Date.now().toString(),
+      name: taskName,
       startDate: Date.now(),
-      completeDate:null, //estado
-      interruptDate:null,//estado
-      duration:1,//estado, minuto 
-      type:'workTime',//estado
+      completeDate: null, //estado
+      interruptDate: null,//estado
+      duration: state.config[nextCytleType],
+      type: nextCytleType,
     }
 
-//aqui estamos formatando o duration da nova task criada em segundos 
-const secondsRemaining = newTask.duration * 60; 
+    const secondsRemaining = newTask.duration * 60;
 
-
-//agora temos que configurar o setState 
-    setState(prevState =>{
-      return{
+    setState(prevState => {
+      return {
         ...prevState,
-        config:{...prevState.config}, //apenas para garantir que estamos preenchendo todo o type
-        activeTask: newTask, //Adicionamos a task criada logo a cima em activeTask
-        currentCycle: 1, //conferir
-        secondsRemaining:secondsRemaining, //Aqui como o nome da const secondsRemaining é igual a o elemento do objeto, não precisamos declarar o novo valor.. Aqui deixei o valor declarado para facilitar o entendimento
-        formattedSecondsRemaining: '00:00', //conferir
-      //Arrays são iguais a objetos do state, não podemos muta-lo diretamente, é necessário buscar o valor anterior do array e fazer as alterações com esse valor anterior.. Mesmo que ele seja vazio
-        tasks: [...prevState.tasks,newTask] // aqui estamos colocando a nova task criada no array de tasks
+        config: { ...prevState.config },
+        activeTask: newTask,
+        currentCycle: nextCycle,
+        secondsRemaining: secondsRemaining,
+        formattedSecondsRemaining: formatedSecondsToMinutes(secondsRemaining),
+        tasks: [...prevState.tasks, newTask]
       }
-
     })
-
   }
 
+
+  const handleInterruptTask = ()=>{
+    setState(prevState => {
+      return {
+        ...prevState,
+        activeTask: null,
+        secondsRemaining: 0,
+        formattedSecondsRemaining: 'l00:00',
+       
+      /*
+      Aqui pegamos as tasks já existentes e mapeamos ela para 'task'
+      após isso fazemos uma validação para o typescript e em seguida comparamos o id da task existente com o id da task atual que estamos interrompendo
+      logo, se existir uma task e o id dela for igual ao id da task mapeada, retornamos a mesma task porém agora com o interruptDate com a data atual 
+      assim obtemos a data aonde foi interrompida a task
+      */
+        tasks: prevState.tasks.map(task=>{
+          if(prevState.activeTask && prevState.activeTask.id === task.id){
+            return{...task, interruptDate:Date.now()}
+          }
+          
+          return task
+        })
+      }
+    })
+  }
 
   return (
 
@@ -74,7 +91,7 @@ const secondsRemaining = newTask.duration * 60;
           labelText='task'
           placeholder='Digite algo'
           ref={taskNameInput}
-
+          disabled={!!state.activeTask} //Isso faz com que o state.active se torne falso com o operador double negation !!
 
         />
       </div>
@@ -83,12 +100,41 @@ const secondsRemaining = newTask.duration * 60;
         <p>O próximo interval é de 0 mins</p>
       </div>
 
+{/* Se houver ciclos ativos, exibimos os icones de ciclos */}
+   {
+    state.currentCycle > 0 && (
       <div className='formRow'>
         <Cycles />
       </div>
 
+    )
+   }
+
+   {/* Se não estiver nenhuma task ativa o botão verde é exbido para iniciar todo o form */}
+   {/* Quando há uma task em andamento o botão muda para vermelho para executar a função de interromper */}
       <div className='formRow'>
-        <DefaultButton icon={<PlayCircleIcon />} />
+        {!state.activeTask && ( //Se tem task ativa exiba este button
+          <DefaultButton
+          type="submit"
+          aria-label="Iniciar nova tarefa"
+          title="Iniciar nova tarefa"
+          icon={<PlayCircleIcon />} />
+        ) } 
+        
+        {/* Resolvendo o bug do react utilizando duas renderizações condicionais, podemos utilizar keys também! */}
+        {!!state.activeTask &&( //Se não tem task ativa exiba este button
+          <DefaultButton
+          type="button"
+          aria-label="Interromper tarefa atual"
+          title="Interromper tarefa atual"
+          color="red"
+          onClick={handleInterruptTask}
+          icon={<StopCircleIcon/>} />
+        )
+        }
+        
+
+        
       </div>
     </form>
   );
