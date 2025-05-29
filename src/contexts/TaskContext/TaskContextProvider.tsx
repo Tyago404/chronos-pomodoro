@@ -9,26 +9,50 @@ type TaskContextProviderProps = {
 export const TaskContextProvider = ({children}:TaskContextProviderProps)=>{
   const [state,setState] = useState(initialTaskState)
 
-  const [number, dispatch] = useReducer((state, action)=>{
-    switch(action){
-      case 'INCREMENT':
-        return state + 1;
-      case 'DECREMENT':
-        return state - 1;
-      case'ZERAR':
-        return state = 0;
-    }
+type ActionType = {
+  type:string,
+  payload?:number;
+}
 
+  const [myState, dispatch] = useReducer((state, action: ActionType)=>{
+
+    //TODA EXPLICAÇÃO EM READ.me
+    switch(action.type){
+      case 'INCREMENT':{
+        if(!action.payload) return state
+         return{
+          ...state,
+          secondsRemaining: state.secondsRemaining + action.payload, 
+        }
+      }
+      case 'DECREMENT':{
+        if(!action.payload) return state
+          return{
+            ...state,
+            secondsRemaining: state.secondsRemaining - action.payload
+          }
+      }
+    case 'RESET':{
+      return{
+        secondsRemaining: 0
+      }
+    }
+    }    
       return state
-  },0)
+  },{
+     secondsRemaining: 0
+  })
 
 
   return(
       <TaskContext.Provider value={{state,setState}}>
-        <h1>O numero do reducer state é: {number}</h1>
-        <button onClick={()=>dispatch('INCREMENT')}>Increment</button><br />
-        <button onClick={()=>dispatch('DECREMENT')}>Decrement</button><br />
-        <button onClick={()=>dispatch('ZERAR')}>Zerar</button>
+        <h1>O numero do reducer state é: {JSON.stringify(myState)}</h1>
+        <button onClick={()=>dispatch({type:'INCREMENT', payload: 10})}>Increment +10</button><br /> 
+        <button onClick={()=>dispatch({type:'INCREMENT', payload:50 })}>Increment +50</button><br />
+        <button onClick={()=>dispatch({type:'DECREMENT', payload: 10})}>DECREMENT 10</button> <br />
+        <button onClick={()=>dispatch({type:'RESET'})}>RESET VALUE</button>
+
+      
       </TaskContext.Provider>
   )
 }
