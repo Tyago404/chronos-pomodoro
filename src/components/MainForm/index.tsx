@@ -61,23 +61,15 @@ export const MainForm = () => {
         ...prevState,
         activeTask: null,
         secondsRemaining: 0,
-        formattedSecondsRemaining: 'l00:00',
-       
-      /*
-      Aqui pegamos as tasks já existentes e mapeamos ela para 'task'
-      após isso fazemos uma validação para o typescript e em seguida comparamos o id da task existente com o id da task atual que estamos interrompendo
-      logo, se existir uma task e o id dela for igual ao id da task mapeada, retornamos a mesma task porém agora com o interruptDate com a data atual 
-      assim obtemos a data aonde foi interrompida a task
-      */
-        tasks: prevState.tasks.map(task=>{
-          if(prevState.activeTask && prevState.activeTask.id === task.id){
-            return{...task, interruptDate:Date.now()}
+        formattedSecondsRemaining: '00:00',
+        tasks: prevState.tasks.map(task => {
+          if (prevState.activeTask && prevState.activeTask.id === task.id) {
+            return { ...task, interruptDate: Date.now() };
           }
-          
-          return task
-        })
-      }
-    })
+          return task;
+        }),
+      };
+    });
   }
 
   return (
@@ -91,7 +83,7 @@ export const MainForm = () => {
           labelText='task'
           placeholder='Digite algo'
           ref={taskNameInput}
-          disabled={!!state.activeTask} //Isso faz com que o state.active se torne falso com o operador double negation !!
+          disabled={!!state.activeTask}
 
         />
       </div>
@@ -100,7 +92,6 @@ export const MainForm = () => {
         <p>O próximo interval é de 0 mins</p>
       </div>
 
-{/* Se houver ciclos ativos, exibimos os icones de ciclos */}
    {
     state.currentCycle > 0 && (
       <div className='formRow'>
@@ -110,10 +101,9 @@ export const MainForm = () => {
     )
    }
 
-   {/* Se não estiver nenhuma task ativa o botão verde é exbido para iniciar todo o form */}
-   {/* Quando há uma task em andamento o botão muda para vermelho para executar a função de interromper */}
+
       <div className='formRow'>
-        {!state.activeTask && ( //Se tem task ativa exiba este button
+        {!state.activeTask && ( 
           <DefaultButton
           type="submit"
           aria-label="Iniciar nova tarefa"
@@ -121,8 +111,7 @@ export const MainForm = () => {
           icon={<PlayCircleIcon />} />
         ) } 
         
-        {/* Resolvendo o bug do react utilizando duas renderizações condicionais, podemos utilizar keys também! */}
-        {!!state.activeTask &&( //Se não tem task ativa exiba este button
+        {!!state.activeTask &&( 
           <DefaultButton
           type="button"
           aria-label="Interromper tarefa atual"
