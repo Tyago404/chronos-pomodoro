@@ -44,6 +44,19 @@ export const MainForm = () => {
     }
 
     dispatch({type:TaskActionTypes.START_TASK, payload:newTask})
+
+    //Criando um novo worker em vite - SCRIPT PRINCIPAL
+    const worker = new Worker(new URL('../../workers/timeWorker.js', import.meta.url))
+    
+    //worker.postMessage = ENVIAR UMA MENSAGEM 
+    //Aqui estamos enviando uma mensagem para /timeWorker em self.onmessage
+    worker.postMessage('Olá Mundo!')
+
+    //Enviando mensagem de volta utilizando a const worker
+    worker.onmessage = (e)=>{ 
+      console.log('PRINCIPAL recebeu:', e.data)
+    }
+    
   }
 
 
