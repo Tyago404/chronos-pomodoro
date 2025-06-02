@@ -8,6 +8,7 @@ import { useTaskContext } from "../../contexts/TaskContext/useTaskContext";
 import { getNextCycle } from "../../utils/getNextCycle";
 import { getNextCycleType } from "../../utils/getNextCycleType";
 import { TaskActionTypes } from "../../contexts/TaskContext/taskActions";
+import { Tips } from "../Tips";
 
 export const MainForm = () => {
 
@@ -16,6 +17,9 @@ export const MainForm = () => {
   
   const nextCycle = getNextCycle(state.currentCycle)
   const nextCytleType = getNextCycleType(nextCycle)
+
+
+  
   
   const handleCreateNewTask = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -39,7 +43,6 @@ export const MainForm = () => {
       type: nextCytleType,
     }
 
-    //Estamos chamado a função de iniciar a task passando a nova task como payload
     dispatch({type:TaskActionTypes.START_TASK, payload:newTask})
   }
 
@@ -65,7 +68,7 @@ export const MainForm = () => {
       </div>
 
       <div className='formRow'>
-        <p>O próximo interval é de 0 mins</p>
+          <Tips />
       </div>
 
    {
