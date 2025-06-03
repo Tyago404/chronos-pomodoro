@@ -3,9 +3,25 @@
 self.onmessage = (e)=>{
   console.log('WORKER recebeu:', e.data)
 
-  //podemos enviar uma mensagem após recer uma 
-  self.postMessage("OLÁ PARA VOCÊ TAMBÉM")
+  switch(e.data){
+    case 'FAVOR':{
+      self.postMessage('Sim, posso fazer um favor')
+      break;
+    }
 
+    case 'FALA_OI':{
+      self.postMessage('Ok: OI')
+      break;
+    }
 
+    case 'FECHAR':{
+      self.postMessage('Ok: FECHANDO');
+      //É necessário fechar o worker para não poluir 
+      self.close();
+      break;
+    }
+    default:
+      self.postMessage('Nenhum caso foi atendido')
+  }
   
 }

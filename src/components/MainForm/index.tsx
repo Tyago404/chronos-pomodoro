@@ -50,12 +50,18 @@ export const MainForm = () => {
     
     //worker.postMessage = ENVIAR UMA MENSAGEM 
     //Aqui estamos enviando uma mensagem para /timeWorker em self.onmessage
-    worker.postMessage('Olá Mundo!')
+    // worker.postMessage('Olá Mundo!')
 
     //Enviando mensagem de volta utilizando a const worker
     worker.onmessage = (e)=>{ 
       console.log('PRINCIPAL recebeu:', e.data)
     }
+
+    //CASOS 
+    worker.postMessage('FAVOR') //Retornar primeiro caso 'SIM POSSO FAZER UM FAVOR'
+    worker.postMessage('FALA_OI') //Retornar segundo caso 'OK: OI' 
+    worker.postMessage('X')//Retornar terceiro caso 'NENHUM FOI ATENDIDO'
+    worker.postMessage('FECHAR') //Fechar e limpar  'OK: FECHANDO'
     
   }
 
