@@ -1,27 +1,26 @@
-//self.onmessage  = RECEBER MENSAGEM via .data
-//Quando ele recebe uma mensagem ele executa a função 
+let isRunning = false;
+
 self.onmessage = (e)=>{
-  console.log('WORKER recebeu:', e.data)
+if(isRunning) return
 
-  switch(e.data){
-    case 'FAVOR':{
-      self.postMessage('Sim, posso fazer um favor')
-      break;
-    }
+isRunning = true;
 
-    case 'FALA_OI':{
-      self.postMessage('Ok: OI')
-      break;
-    }
+const state = e.data;
+const {activeTask, secondsRemaining} = state;
 
-    case 'FECHAR':{
-      self.postMessage('Ok: FECHANDO');
-      //É necessário fechar o worker para não poluir 
-      self.close();
-      break;
-    }
-    default:
-      self.postMessage('Nenhum caso foi atendido')
-  }
+const endDate = activeTask.startDate + secondsRemaining * 1000; 
+
+  const now = Date.now();
+  let countDownSeconds = Math.ceil((endDate - now) / 1000);
+
+const tick = ()=>{
+  self.postMessage(countDownSeconds);
+  const now = Date.now();
+  countDownSeconds = Math.floor((endDate - now) / 1000);
+
+  setTimeout(tick,1000)
   
+}
+
+tick()
 }

@@ -10,17 +10,18 @@ import { getNextCycleType } from "../../utils/getNextCycleType";
 import { TaskActionTypes } from "../../contexts/TaskContext/taskActions";
 import { Tips } from "../Tips";
 
+
 export const MainForm = () => {
 
   const taskNameInput = useRef<HTMLInputElement>(null)
   const { state, dispatch } = useTaskContext()
-  
+
   const nextCycle = getNextCycle(state.currentCycle)
   const nextCytleType = getNextCycleType(nextCycle)
 
 
-  
-  
+
+
   const handleCreateNewTask = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -43,31 +44,12 @@ export const MainForm = () => {
       type: nextCytleType,
     }
 
-    dispatch({type:TaskActionTypes.START_TASK, payload:newTask})
-
-    //Criando um novo worker em vite - SCRIPT PRINCIPAL
-    const worker = new Worker(new URL('../../workers/timeWorker.js', import.meta.url))
-    
-    //worker.postMessage = ENVIAR UMA MENSAGEM 
-    //Aqui estamos enviando uma mensagem para /timeWorker em self.onmessage
-    // worker.postMessage('Olá Mundo!')
-
-    //Enviando mensagem de volta utilizando a const worker
-    worker.onmessage = (e)=>{ 
-      console.log('PRINCIPAL recebeu:', e.data)
-    }
-
-    //CASOS 
-    worker.postMessage('FAVOR') //Retornar primeiro caso 'SIM POSSO FAZER UM FAVOR'
-    worker.postMessage('FALA_OI') //Retornar segundo caso 'OK: OI' 
-    worker.postMessage('X')//Retornar terceiro caso 'NENHUM FOI ATENDIDO'
-    worker.postMessage('FECHAR') //Fechar e limpar  'OK: FECHANDO'
-    
+    dispatch({ type: TaskActionTypes.START_TASK, payload: newTask })
   }
 
 
-  const handleInterruptTask = ()=>{
-   dispatch({type:TaskActionTypes.INTERRUPT_TASK})
+  const handleInterruptTask = () => {
+    dispatch({ type: TaskActionTypes.INTERRUPT_TASK })
   }
 
   return (
@@ -87,41 +69,41 @@ export const MainForm = () => {
       </div>
 
       <div className='formRow'>
-          <Tips />
+        <Tips />
       </div>
 
-   {
-    state.currentCycle > 0 && (
+      {
+        state.currentCycle > 0 && (
+          <div className='formRow'>
+            <Cycles />
+          </div>
+
+        )
+      }
+
+
       <div className='formRow'>
-        <Cycles />
-      </div>
-
-    )
-   }
-
-
-      <div className='formRow'>
-        {!state.activeTask && ( 
+        {!state.activeTask && (
           <DefaultButton
-          type="submit"
-          aria-label="Iniciar nova tarefa"
-          title="Iniciar nova tarefa"
-          icon={<PlayCircleIcon />} />
-        ) } 
-        
-        {!!state.activeTask &&( 
+            type="submit"
+            aria-label="Iniciar nova tarefa"
+            title="Iniciar nova tarefa"
+            icon={<PlayCircleIcon />} />
+        )}
+
+        {!!state.activeTask && (
           <DefaultButton
-          type="button"
-          aria-label="Interromper tarefa atual"
-          title="Interromper tarefa atual"
-          color="red"
-          onClick={handleInterruptTask}
-          icon={<StopCircleIcon/>} />
+            type="button"
+            aria-label="Interromper tarefa atual"
+            title="Interromper tarefa atual"
+            color="red"
+            onClick={handleInterruptTask}
+            icon={<StopCircleIcon />} />
         )
         }
-        
 
-        
+
+
       </div>
     </form>
   );
