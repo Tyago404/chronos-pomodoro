@@ -9,7 +9,6 @@ import { getNextCycle } from "../../utils/getNextCycle";
 import { getNextCycleType } from "../../utils/getNextCycleType";
 import { TaskActionTypes } from "../../contexts/TaskContext/taskActions";
 import { Tips } from "../Tips";
-import { toast } from "react-toastify";
 import { toastfyWrapper } from "../../adapters/toastfyWrapper";
 
 
@@ -21,6 +20,7 @@ export const MainForm = () => {
   const nextCycle = getNextCycle(state.currentCycle)
   const nextCytleType = getNextCycleType(nextCycle)
 
+  const lastTaskName = state.tasks[state.tasks.length - 1]?.name || '' //para pegar o último valor 
 
 
 
@@ -70,6 +70,7 @@ export const MainForm = () => {
           placeholder='Digite algo'
           ref={taskNameInput}
           disabled={!!state.activeTask}
+          defaultValue={lastTaskName}
 
         />
       </div>
