@@ -49,7 +49,7 @@ export const Menu = () => {
         <HouseIcon />
       </RouterLink>
       <RouterLink
-        href='#'
+        href='/history'
         className={styles.menuLink}
         aria-label='ver histórico'
         title='ver histórico'

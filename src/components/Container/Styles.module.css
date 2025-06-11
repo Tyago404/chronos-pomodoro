@@ -3,8 +3,11 @@
 }
 
 .container {
-  max-width: 98rem; /*ou 980pixels*/
-  margin: 0 auto; /*para centralizar a div com 0cima baixo e auto dos lados */
+  max-width: 98rem; 
+  margin: 0 auto; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .content {
