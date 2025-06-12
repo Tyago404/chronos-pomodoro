@@ -9,10 +9,15 @@ import styles from './styles.module.css'
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { formatDate } from '../../utils/formatDate';
 import { getTaskStatus } from '../../utils/getTaskStatus';
+import { sortTasks } from '../../utils/sortTasks';
 
 export const History = () => {
 
     const {state} = useTaskContext()
+
+    //para inverter a ordem do array e exibir a mais recente no topo 
+    const sortedTasks = sortTasks({tasks: state.tasks});
+
   return (
     <MainTemplate>
       <Container>
@@ -43,7 +48,7 @@ export const History = () => {
             </thead>
 
             <tbody>
-              {state.tasks.map((task) => {
+              {sortedTasks.map((task) => {
                 const taskTypeDictionary = {
                   workTime: 'Foco',
                   shortBreakTime: 'Descanso curto',
