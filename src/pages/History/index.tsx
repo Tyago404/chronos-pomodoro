@@ -8,6 +8,7 @@ import { MainTemplate } from '../../templates/MainTemplate';
 import styles from './styles.module.css'
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { formatDate } from '../../utils/formatDate';
+import { getTaskStatus } from '../../utils/getTaskStatus';
 
 export const History = () => {
 
@@ -48,7 +49,7 @@ export const History = () => {
                     <td>{task.name}</td>
                     <td>{task.duration}</td>
                     <td>{formatDate(task.startDate)}</td>
-                    <td>{task.interruptDate}</td>
+                    <td>{getTaskStatus(task, state.activeTask)}</td>
                     <td>{task.type}</td>
                   </tr>
                 )
