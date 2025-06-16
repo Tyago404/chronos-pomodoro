@@ -4,7 +4,7 @@ import { DefaultButton } from '../../components/DefaultButton';
 import { DefaultInput } from '../../components/DefaultInput';
 import { Heading } from '../../components/Heading/Index';
 import { MainTemplate } from '../../templates/MainTemplate';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { toastfyWrapper } from '../../adapters/toastfyWrapper';
 import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
@@ -12,6 +12,9 @@ import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
 
 
 export const Settings = () => {
+   useEffect(()=>{
+      document.title = 'Configurações - Chronos Pomodoro'
+    },[])
 
   const {state, dispatch} = useTaskContext();
 

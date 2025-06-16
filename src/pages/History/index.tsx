@@ -16,6 +16,9 @@ import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
 
 
 export const History = () => {
+   useEffect(()=>{
+    document.title = 'Histórico - Chronos Pomodoro'
+  },[])
 
   const { state, dispatch } = useTaskContext()
   const [confirmClearHistory, setConfirmClearHistory] = useState(false)
