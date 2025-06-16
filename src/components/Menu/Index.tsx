@@ -24,13 +24,9 @@ export const Menu = () => {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    //para criar uma key e o valor da key no localstorage do navegador
     localStorage.setItem('theme',theme)
-    // console.log('Fui Executado! e o theme mudou');
 
-    return () => {
-      // console.log('Função de limpeza foi executada!');
-    };
+    return () => {};
   }, [theme]);
 
   const nextThemeIcon = {
@@ -58,7 +54,7 @@ export const Menu = () => {
         <HistoryIcon />
       </RouterLink>
       <RouterLink
-        href='#'
+        href='/settings-pomodoro/'
         className={styles.menuLink}
         aria-label='ir para configurações'
         title='ir para configurações'
