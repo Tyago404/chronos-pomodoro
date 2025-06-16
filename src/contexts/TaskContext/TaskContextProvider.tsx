@@ -28,7 +28,7 @@ export function TaskContextProvider({ children }: TaskContextProviderProps) {
     formattedSecondsRemaining: '00:00',
   }
   })
-  let playBeepRef = useRef<ReturnType<typeof loadBeep>>(null); 
+  const playBeepRef = useRef<ReturnType<typeof loadBeep>>(null); 
 
   const worker = TimerWorkerManager.getInstance()
   worker.onmessage(e => {

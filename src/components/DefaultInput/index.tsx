@@ -2,7 +2,7 @@ import styles from './styles.module.css'
 
 type DefaultInputProps = {
   id: string; 
-  labelText?: String; 
+  labelText?: string; 
 
 } & React.ComponentProps<'input'>;
 
