@@ -48,6 +48,12 @@ export const History = () => {
     dispatch({type: TaskActionTypes.RESET_STATE})
   },[confirmClearHistory,dispatch])
 
+  useEffect(()=>{
+    return ()=>{
+      toastfyWrapper.dismiss()
+    }
+  },[])
+
   function handleSortTasks({ field }: Pick<SortTasksOptions, 'field'>) {
     const newDirection = sortTasksOptions.direction === 'desc' ? 'asc' : 'desc'
 
@@ -65,7 +71,7 @@ export const History = () => {
     toastfyWrapper.dismiss();    
     toastfyWrapper.confirm('Are you sure?', (confirmation)=>{
       setConfirmClearHistory(confirmation)
-      
+    
     })
 
   }
