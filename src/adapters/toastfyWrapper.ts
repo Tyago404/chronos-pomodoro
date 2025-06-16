@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { Dialog } from "../components/Dialog";
 
 //padrão de projeto Adapter
 export const toastfyWrapper = {
@@ -8,4 +9,16 @@ export const toastfyWrapper = {
   warning: (msg:string) => toast.warning(msg),
   info: (msg:string) => toast.info(msg),
   dismiss: ()=> toast.dismiss(),
+  confirm: (data: string, onClosing: (confirmation: boolean) => void) =>
+    toast(Dialog, {
+      data,
+      onClose: confirmation => {
+        if (confirmation) return onClosing(true);
+        return onClosing(false);
+      },
+      autoClose: false,
+      closeOnClick: false,
+      closeButton: false,
+      draggable: false,
+    }),
 }

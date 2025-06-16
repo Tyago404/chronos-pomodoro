@@ -11,11 +11,14 @@ import { formatDate } from '../../utils/formatDate';
 import { getTaskStatus } from '../../utils/getTaskStatus';
 import { sortTasks, SortTasksOptions } from '../../utils/sortTasks';
 import { useEffect, useState } from 'react';
+import { toastfyWrapper } from '../../adapters/toastfyWrapper';
 import { TaskActionTypes } from '../../contexts/TaskContext/taskActions';
+
 
 export const History = () => {
 
   const { state, dispatch } = useTaskContext()
+  const [confirmClearHistory, setConfirmClearHistory] = useState(false)
   const hasTasks = state.tasks.length > 0
 
   const [sortTasksOptions, setSortTasksOptions] = useState<SortTasksOptions>(() => {
@@ -37,6 +40,14 @@ export const History = () => {
     }));
   }, [state.tasks]);
 
+
+  useEffect(()=>{
+    if(!confirmClearHistory) return
+    setConfirmClearHistory(false)
+
+    dispatch({type: TaskActionTypes.RESET_STATE})
+  },[confirmClearHistory,dispatch])
+
   function handleSortTasks({ field }: Pick<SortTasksOptions, 'field'>) {
     const newDirection = sortTasksOptions.direction === 'desc' ? 'asc' : 'desc'
 
@@ -51,9 +62,12 @@ export const History = () => {
   }
 
   const handleResetHistory = () => {
-    // if (!confirm('Tem certeza que deseja excluir?')) return
+    toastfyWrapper.dismiss();    
+    toastfyWrapper.confirm('Are you sure?', (confirmation)=>{
+      setConfirmClearHistory(confirmation)
+      
+    })
 
-    // dispatch({ type: TaskActionTypes.RESET_STATE })
   }
 
   return (
