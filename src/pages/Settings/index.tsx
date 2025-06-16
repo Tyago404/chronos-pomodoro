@@ -6,6 +6,7 @@ import { Heading } from '../../components/Heading/Index';
 import { MainTemplate } from '../../templates/MainTemplate';
 import { useRef } from 'react';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+import { toastfyWrapper } from '../../adapters/toastfyWrapper';
 
 
 
@@ -19,10 +20,37 @@ export const Settings = () => {
 
   const handleSaveSettings = (e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();
+    toastfyWrapper.dismiss();
 
-    const workTime = workTimeInputRef.current?.value
-    const shortBreak = shortBreakTimeInputRef.current?.value
-    const longTime = longBreakTimeInputRef.current?.value
+    //forma de mandar mensagens de erros
+    const formErrors:string[] = []
+
+    const workTime = Number(workTimeInputRef.current?.value)
+    const shortBreak = Number(shortBreakTimeInputRef.current?.value)
+    const longTime = Number(longBreakTimeInputRef.current?.value)
+
+    if(isNaN(workTime) ||isNaN(shortBreak)||isNaN(longTime) ){
+      formErrors.push('Use apenas números para TODOS os campos');
+    }
+
+    if(workTime < 1 || workTime > 99){
+       formErrors.push('Digite valores entre 1 e 99 para foco');
+    }
+    if(shortBreak < 1 || shortBreak > 30){
+       formErrors.push('Digite valores entre 1 e 30 para descanso curto');
+    }
+    if(longTime < 1 || longTime > 60){
+       formErrors.push('Digite valores entre 1 e 60 para descanso longo');
+    }
+
+    if(formErrors.length > 0 ){
+      formErrors.forEach(error =>{  
+        toastfyWrapper.error(error)
+      })
+      return
+    }
+
+    console.log('salvar')
 
   }
 
@@ -39,13 +67,13 @@ export const Settings = () => {
       <Container>
         <form onSubmit={handleSaveSettings} className="form">
           <div className="formRow">
-            <DefaultInput id='worktime' labelText='Foco' ref={workTimeInputRef} defaultValue={state.config.workTime}/>
+            <DefaultInput id='worktime' labelText='Foco' ref={workTimeInputRef} defaultValue={state.config.workTime} type='number' />
           </div>
           <div className="formRow">
-            <DefaultInput id='shortBreakTime' labelText='Descanso curto' ref={shortBreakTimeInputRef} defaultValue={state.config.shortBreakTime} />
+            <DefaultInput id='shortBreakTime' labelText='Descanso curto' ref={shortBreakTimeInputRef} defaultValue={state.config.shortBreakTime}  type='number'/>
           </div>
           <div className="formRow">
-            <DefaultInput id='longBreakTime' labelText='Descanso longo' ref={longBreakTimeInputRef} defaultValue={state.config.longBreakTime}/>
+            <DefaultInput id='longBreakTime' labelText='Descanso longo' ref={longBreakTimeInputRef} defaultValue={state.config.longBreakTime}  type='number'/>
           </div>
           <div className="formRow">
            <DefaultButton 
